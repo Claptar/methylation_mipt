@@ -1,0 +1,193 @@
+---
+title: "Differential methylation analysis"
+output: html_notebook
+---
+
+# Global environment
+
+## Install dependencies
+
+```{r}
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("methylKit")
+BiocManager::install("biomaRt")
+```
+
+```{r}
+library(methylKit)
+library(biomaRt)
+```
+
+# Methylation analysis
+
+## Load files
+
+```{r}
+file.list = list(
+'bismarkMethylation/SRR5836473_trimmed_1_bismark_bt2_pe.deduplicated.bismark.cov',
+'bismarkMethylation/SRR5836474_trimmed_1_bismark_bt2_pe.deduplicated.bismark.cov',
+'bismarkMethylation/SRR3824222_trimmed_1_bismark_bt2_pe.deduplicated.bismark.cov',
+'bismarkMethylation/SRR5836479_trimmed_1_bismark_bt2_pe.deduplicated.bismark.cov'
+)
+```
+
+```{r}
+# Read the files into a methylKit object of type methylRawList: myobj
+myobj = methRead(file.list,
+                 pipeline="bismarkCoverage",
+                 sample.id=list("8cell.1","8cell.2","Epiblast.1","Epiblast.2"),
+                 assembly="mm10",
+                 treatment=c(0, 0, 1, 1),
+                 context="CpG",
+                 )
+```
+
+```{r}
+getMethylationStats(myobj[[2]],plot=FALSE,both.strands=FALSE)
+```
+
+```{r}
+getMethylationStats(myobj[[1]],plot=TRUE,both.strands=FALSE)
+getMethylationStats(myobj[[2]],plot=TRUE,both.strands=FALSE)
+getMethylationStats(myobj[[3]],plot=TRUE,both.strands=FALSE)
+getMethylationStats(myobj[[4]],plot=TRUE,both.strands=FALSE)
+```
+
+## Preprocess
+
+```{r}
+# Filter out CpG sites with too few or too many reads
+filtered.myobj = filterByCoverage(myobj, lo.count=10, lo.perc=NULL, hi.count=NULL, hi.perc=99.9)
+```
+
+```{r}
+# Generate methylation matrix by combining all samples. By default it includes only those CpGs which are covered by reads in each sample.
+meth = unite(filtered.myobj) 
+```
+
+```{r}
+# Check the dimensions of your combined matrix
+dim(meth)
+```
+
+```{r}
+getCorrelation(meth,plot=TRUE)
+```
+
+## Clustering analysis
+
+```{r}
+# Sample clusterization
+clusterSamples(meth, dist="correlation", method="ward", plot=TRUE)
+```
+
+## PCA
+
+```{r}
+PCASamples(meth, screeplot=TRUE)
+```
+
+```{r}
+pc = PCASamples(meth, obj.return=TRUE, adj.lim=c(1,1))
+```
+
+## Differential analysis
+
+```{r}
+# Run differential analysis 
+myDiff = calculateDiffMeth(meth, test = "Chisq", overdispersion ='MN')
+```
+
+Extract significant differentially methylated CpGs
+
+```{r}
+# The "difference" parameter sets the percentage threshold for differences in methylation levels
+myDiff25 = getMethylDiff(myDiff, difference=25, qvalue=0.001)
+```
+
+```{r}
+myDiff25
+```
+
+## Annotation of differentially methylated CpGs
+
+```{r}
+# Download genomic annotation for particular version of genome assembly (mm10)
+# Might take a while, depends on cluster traffic load
+
+ensembl111 <- useEnsembl(biomart = 'genes', dataset = 'mmusculus_gene_ensembl', version=111)
+```
+
+```{r}
+# Get genes annotation - TSSs and chromosomes
+g <- getBM(attributes=c('ensembl_gene_id','chromosome_name',"transcription_start_site"), mart = ensembl111)
+```
+
+```{r}
+# Annotation contains several TSSs for some genes, but we want to keep only one for convenience
+# This will not affect the results, because each CpG will be assigned to the closest TSS
+g=g[!duplicated(g[, c("ensembl_gene_id")], fromLast=F),]
+```
+
+```{r}
+# Make a GRanges object from the genes table
+genes_all = makeGRangesFromDataFrame(g,
+                                     keep.extra.columns=T,
+                                     ignore.strand=T,
+                                     seqinfo=NULL,
+                                     seqnames.field=c("chromosome_name"),
+                                     start.field="transcription_start_site",
+                                     end.field=c("transcription_start_site"))
+```
+
+```{r}
+# Make a GRanges object from the table with strong differentially methylated CpGs
+mydiff25_ranges = makeGRangesFromDataFrame(myDiff25, keep.extra.columns=F)
+```
+
+```{r}
+mydiff25_ranges
+```
+
+```{r}
+# Find the nearest TSS for each CpG
+x = nearest(mydiff25_ranges, genes_all)
+```
+
+```{r}
+myDiff25['nearest_tss'] = g[x,'transcription_start_site']
+myDiff25['nearest_gene'] = g[x,'ensembl_gene_id']
+```
+
+```{r}
+myDiff25_x1 = myDiff25[myDiff25$meth.diff>0,]
+myDiff25_x2 = myDiff25[myDiff25$meth.diff<0,]
+```
+
+```{r}
+myDiff25
+```
+
+```{r}
+write.csv(myDiff25, "results.csv")
+```
+
+```{r}
+# Find genes with 4 or more CpGs assigned.
+gene_diffMeth_x1 = table(myDiff25_x1$nearest_gene)
+gene_diffMeth_x1 = names(gene_diffMeth_x1[gene_diffMeth_x1>=4])
+head(gene_diffMeth_x1, 5)
+```
+
+```{r}
+# Find genes with 4 or more CpGs assigned.
+gene_diffMeth_x2 = table(myDiff25_x2$nearest_gene)
+gene_diffMeth_x2 = names(gene_diffMeth_x2[gene_diffMeth_x2>=4])
+gene_diffMeth_x2
+```
+
+```{r}
+sessionInfo()
+```
