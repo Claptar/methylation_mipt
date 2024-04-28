@@ -1,0 +1,8 @@
+bismarkBedGraph
+bismarkOutput
+fastq_files
+fastq_trimmed
+qc/*.zip
+qc/*.json
+references
+singularityImages

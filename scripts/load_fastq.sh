@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR583/007/SRR5836477/SRR5836477_1.fastq.gz -o $1/SRR5836477_GSM2229984_TE_rep1_WGBS_Mus_musculus_Bisulfite-Seq_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR583/007/SRR5836477/SRR5836477_2.fastq.gz -o $1/SRR5836477_GSM2229984_TE_rep1_WGBS_Mus_musculus_Bisulfite-Seq_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR583/006/SRR5836476/SRR5836476_1.fastq.gz -o $1/SRR5836476_GSM2229983_ICM_rep2_WGBS_Mus_musculus_Bisulfite-Seq_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR583/006/SRR5836476/SRR5836476_2.fastq.gz -o $1/SRR5836476_GSM2229983_ICM_rep2_WGBS_Mus_musculus_Bisulfite-Seq_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR583/004/SRR5836474/SRR5836474_1.fastq.gz -o $1/SRR5836474_GSM2229981_8cell_rep2_WGBS_Mus_musculus_Bisulfite-Seq_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR583/004/SRR5836474/SRR5836474_2.fastq.gz -o $1/SRR5836474_GSM2229981_8cell_rep2_WGBS_Mus_musculus_Bisulfite-Seq_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR583/005/SRR5836475/SRR5836475_1.fastq.gz -o $1/SRR5836475_GSM2229982_ICM_rep1_WGBS_Mus_musculus_Bisulfite-Seq_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR583/005/SRR5836475/SRR5836475_2.fastq.gz -o $1/SRR5836475_GSM2229982_ICM_rep1_WGBS_Mus_musculus_Bisulfite-Seq_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR382/002/SRR3824222/SRR3824222_1.fastq.gz -o $1/SRR3824222_GSM2229986_Epiblast_rep1_WGBS_Mus_musculus_Bisulfite-Seq_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR382/002/SRR3824222/SRR3824222_2.fastq.gz -o $1/SRR3824222_GSM2229986_Epiblast_rep1_WGBS_Mus_musculus_Bisulfite-Seq_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR583/003/SRR5836473/SRR5836473_1.fastq.gz -o $1/SRR5836473_GSM2229980_8cell_rep1_WGBS_Mus_musculus_Bisulfite-Seq_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR583/003/SRR5836473/SRR5836473_2.fastq.gz -o $1/SRR5836473_GSM2229980_8cell_rep1_WGBS_Mus_musculus_Bisulfite-Seq_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR583/008/SRR5836478/SRR5836478_1.fastq.gz -o $1/SRR5836478_GSM2229985_TE_rep2_WGBS_Mus_musculus_Bisulfite-Seq_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR583/008/SRR5836478/SRR5836478_2.fastq.gz -o $1/SRR5836478_GSM2229985_TE_rep2_WGBS_Mus_musculus_Bisulfite-Seq_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR382/004/SRR3824224/SRR3824224_1.fastq.gz -o $1/SRR3824224_GSM2229988_ExE_rep1_WGBS_Mus_musculus_Bisulfite-Seq_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR382/004/SRR3824224/SRR3824224_2.fastq.gz -o $1/SRR3824224_GSM2229988_ExE_rep1_WGBS_Mus_musculus_Bisulfite-Seq_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR382/005/SRR3824225/SRR3824225_1.fastq.gz -o $1/SRR3824225_GSM2229989_ExE_rep2_WGBS_Mus_musculus_Bisulfite-Seq_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR382/005/SRR3824225/SRR3824225_2.fastq.gz -o $1/SRR3824225_GSM2229989_ExE_rep2_WGBS_Mus_musculus_Bisulfite-Seq_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR583/009/SRR5836479/SRR5836479_1.fastq.gz -o $1/SRR5836479_GSM2229987_Epiblast_rep2_WGBS_Mus_musculus_Bisulfite-Seq_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR583/009/SRR5836479/SRR5836479_2.fastq.gz -o $1/SRR5836479_GSM2229987_Epiblast_rep2_WGBS_Mus_musculus_Bisulfite-Seq_2.fastq.gz
