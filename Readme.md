@@ -125,7 +125,7 @@ $ singularity pull --dir singularityImages multiqc.sif docker://quay.io/bioconta
 #PBS -l nodes=1:ppn=8
 
 ### Change directory
-cd /gss/home/a.binkevich.ext/projects/compbio/methylation
+cd ~/compbio/methylation
 
 ### Load singularity
 module load singularity/3.6.1 
@@ -164,7 +164,7 @@ $ singularity pull --dir singularityImages fastp.sif docker://quay.io/biocontain
 #PBS -l nodes=1:ppn=8
 
 ### Change directory
-cd /gss/home/a.binkevich.ext/projects/compbio/methylation
+cd ~/compbio/methylation
 
 ### Load singularity
 module load singularity/3.6.1 
@@ -245,7 +245,7 @@ $ singularity run singularityImages/bismark.sif bismark_genome_preparation --ver
 #PBS -l nodes=1:ppn=8
 
 ### Change directory
-cd /gss/home/a.binkevich.ext/projects/compbio/methylation
+cd ~/compbio/methylation
 
 ### Make output dir
 mkdir -p bismarkOutput/${SAMPLE}
